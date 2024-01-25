@@ -13,7 +13,7 @@ Welcome to the Node.js Projects repository! This Git repository hosts a collecti
 ### 2. Todo List App with User Authentication
 
 - **Description:** A feature-rich Todo List application with user authentication, allowing users to create, update, delete, and mark todos as complete. The app also displays the time passed since each todo was created.
-- **Technologies:** HTML, CSS, taiwind CSS, Node.js, MongoDB, Express.js, User Authentication.
+- **Technologies:** HTML, CSS, JS, taiwind CSS, Node.js, MongoDB, Express.js, User Authentication.
 - **Features:**
   - User registration and authentication system.
   - Todo creation, updating, and deletion.
