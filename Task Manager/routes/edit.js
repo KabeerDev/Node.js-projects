@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 let task = require("./../models/task");
 
-router.put("/", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     let id = req.body.id;
     let updatedData = {

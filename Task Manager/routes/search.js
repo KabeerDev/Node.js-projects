@@ -6,12 +6,17 @@ router.get("/", async (req, res) => {
   try {
     let search = req.query.search;
     if (search != "") {
-      let data = {
-        title: search,
-        status: 0,
-      };
-      let tasks = task.find(data).lean();
-      let pen_tasks = await task.find(data);
+      let tasks = task
+        .find({
+          $or: [
+            { title: { $regex: search }, status: 0 },
+            { desc: { $regex: search }, status: 0 },
+          ],
+        })
+        .lean();
+      let pen_tasks = await task.find({
+        $or: [{ title: { $regex: search } }, { desc: { $regex: search } }],
+      });
       let pageNum = Number(req.query.page) || 1;
       let limit = 5;
       let skip = (pageNum - 1) * limit;

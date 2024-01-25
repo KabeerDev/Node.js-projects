@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/output.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <title>signup</title>
+  </head>
+  <body>
+    <%-include("partials/nav") %> <% if(error.length>0){ %>
+    <div
+      class="toast rounded absolute border h-20 left-[42%] w-56 flex flex-col"
+    >
+      <div
+        class="toast-head relative rounded-t flex gap-2 items-center px-2 bg-red-500 text-white h-[50%]"
+      >
+        <img src="./alert.svg" alt="image for alert icon" /> Error
+        <div class="close absolute right-2 cursor-pointer">
+          <img src="./close.svg" alt="image for close icon" />
+        </div>
+      </div>
+      <div
+        class="toast-body bg-white px-2 py-2 flex items-center justify-center"
+      >
+        <%= error %>
+      </div>
+    </div>
+    <% }; %>
+    <div class="container mt-4 mx-auto h-[80vh] grid place-content-center">
+      <form
+        class="flex flex-col w-84 gap-4 p-10 border"
+        action="/signup"
+        method="post"
+        autocomplete="off"
+      >
+        <h1 class="text-5xl text-center mb-5 font-semibold">Signup</h1>
+        <div class="username">
+          <label class="flex justify-between items-center w-full" for="u_name"
+            >Username:
+            <input
+              class="px-3 py-2 border border-gray-400 rounded-md"
+              type="text"
+              name="u_name"
+              id="u_name"
+              placeholder="Enter Username"
+            />
+          </label>
+        </div>
+        <div class="email">
+          <label class="flex justify-between items-center w-full" for="u_email"
+            >Email:
+            <input
+              class="px-3 py-2 border border-gray-400 rounded-md"
+              type="email"
+              name="u_email"
+              id="u_email"
+              placeholder="Enter Email"
+            />
+          </label>
+        </div>
+        <div class="password">
+          <label class="flex justify-between items-center w-full" for="u_pass"
+            >Password:
+            <input
+              class="px-3 py-2 border border-gray-400 rounded-md"
+              type="password"
+              name="u_pass"
+              id="u_pass"
+              placeholder="Enter Password"
+            />
+          </label>
+        </div>
+        <div class="username">
+          <label
+            class="flex gap-3 justify-between items-center w-full"
+            for="c_pass"
+            >Confirm Password:
+            <input
+              class="px-3 py-2 border border-gray-400 rounded-md"
+              type="password"
+              name="c_pass"
+              id="c_pass"
+              placeholder="Enter Password Again"
+            />
+          </label>
+        </div>
+        <div class="text-center font-semibold">
+          Already have an account
+          <a class="text-blue-700 underline ms-3" href="/login">Login</a>
+        </div>
+        <input
+          class="bg-[#111827] mt-3 cursor-pointer hover:bg-[#374151] px-5 py-3 rounded-md text-white"
+          type="submit"
+          name="submit"
+          value="Signup"
+        />
+      </form>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>
