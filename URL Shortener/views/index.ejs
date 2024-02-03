@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/output.css" />
+    <title>URL Shortener</title>
+  </head>
+  <body>
+    <%-include("./components/navbar") %>
+    <div class="text-green-600 text-center text-lg">
+      <% if(success != ""){ %> <%=success %> <% }; %>
+    </div>
+    <h1 class="text-[#0186DA] text-center py-10 font-bold text-6xl">
+      Short URL
+    </h1>
+    <div
+      class="container w-2/4 mx-auto text-center rounded-md"
+      style="box-shadow: 0px 1px 4px 2px rgba(0, 0, 0, 0.3)"
+    >
+      <h2 class="text-[#555555] font-bold text-4xl py-4">
+        Paste the URL to be shortened
+      </h2>
+      <div class="text-red-600 text-center text-lg">
+        <% if(error != ""){ %> <%=error %> <% }; %>
+      </div>
+      <form
+        action="/shortener"
+        method="post"
+        autocomplete="off"
+        class="flex justify-center pb-4"
+      >
+        <input type="hidden" name="user_id" value="<%=userData.id %>" />
+        <input
+          type="text"
+          name="url"
+          id="url"
+          placeholder="Enter the link here"
+          class="border border-gray-500 w-96 text-lg rounded-s p-4 border-e-0"
+        />
+        <input
+          type="submit"
+          value="Shorten URL"
+          class="bg-[#2C87C5] rounded-e cursor-pointer font-bold text-white p-4"
+        />
+      </form>
+      <p class="pb-4">
+        ShortURL is a free tool to shorten URLs and generate short links <br />
+        URL shortener allows to create a shortened link making it easy to share
+      </p>
+    </div>
+    <% if(r_url != ""){ %>
+    <div
+      class="flex flex-col gap-8 text-center py-10 text-2xl text-[#2C87C5] font-semibold"
+    >
+      <span>
+        Shortened URL :
+        <a href="<%=r_url %>" target="_blank" class="text-blue-800"
+          ><%=r_url %></a
+        >
+      </span>
+      <span class="text-4xl"> Clicks : <span class="text-black"><%=clicks %></span> </span>
+    </div>
+    <% }; %>
+  </body>
+</html>
