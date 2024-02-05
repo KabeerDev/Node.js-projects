@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%-include("./partials/header") %>
+    <title>Blog Page</title>
+  </head>
+  <body>
+    <%-include("./partials/nav") %>
+    <div class="container text-center">
+      <h1 class="my-3"><%=blogDetail.title %></h1>
+      <img src="../<%=blogDetail.coverImg%>" alt="image for blog" width="700" />
+      <p class="mt-3 fs-5" style="text-align: justify">
+        <%= blogDetail.body %>
+      </p>
+    </div>
+    <div class="container mt-4">
+      <img
+        src="../<%= blogDetail.createdBy.profileImg %>"
+        width="50"
+        alt="Author image"
+      /><%= blogDetail.createdBy.fullname %>
+    </div>
+    <div class="container mt-3">
+      <h1><%=commentDetail.length %> Comments</h1>
+      <% if (locals.user) { %>
+      <form
+        action="/blog/comment/<%=blogDetail._id  %>"
+        method="post"
+        class="my-3"
+      >
+        <div class="mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="comment"
+            name="content"
+            placeholder="Enter Your Comment"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+      </form>
+      <% }else { %>
+      <h3 class="text-center">Login to comment</h3>
+      <% }; %>
+    </div>
+    <div class="container mt-3 d-flex flex-column">
+      <% commentDetail.forEach(comment => { %>
+      <div class="my-2">
+        <img
+          src="../<%= comment.createdBy.profileImg %>"
+          width="50"
+          alt="Author image"
+        /><%= comment.createdBy.fullname %>
+        <pre><%= comment.content %></pre>
+      </div>
+      <% }) %>
+    </div>
+    <%-include("./partials/script") %>
+  </body>
+</html>
