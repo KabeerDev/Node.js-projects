@@ -8,12 +8,12 @@ Welcome to the Node.js Projects repository! This Git repository hosts a collecti
 
 - **Description:** An intuitive task management application.
 - **Technologies:** HTML, CSS, Bootstrap, Node.js, MongoDB, Express.js.
-- **Features:** task creation, and management.
+- **Features:** Task creation and management.
 
 ### 2. Todo List App with User Authentication
 
 - **Description:** A feature-rich Todo List application with user authentication, allowing users to create, update, delete, and mark todos as complete. The app also displays the time passed since each todo was created.
-- **Technologies:** HTML, CSS, JS, taiwind CSS, Node.js, MongoDB, Express.js, User Authentication.
+- **Technologies:** HTML, CSS, JS, Tailwind CSS, Node.js, MongoDB, Express.js, User Authentication.
 - **Features:**
   - User registration and authentication system.
   - Todo creation, updating, and deletion.
@@ -27,5 +27,22 @@ Welcome to the Node.js Projects repository! This Git repository hosts a collecti
   - Run the application using `npm start`.
   - Open your browser and navigate to `http://localhost:3000` to access the Todo List App.
 - **Note:** Before running the application, make sure to customize the environment variables and configurations based on your preferences and security requirements.
+
+### 3. URL Shortener
+
+- **Description:** A URL Shortener application with token-based authentication and click tracking.
+- **Technologies:** HTML, Tailwind CSS, Node.js, Express.js, EJS, Token Authentication.
+- **Features:**
+  - Shorten long URLs into a compact format.
+  - Token-based authentication system for secure access.
+  - Track the number of clicks on each shortened URL.
+- **Instructions:**
+  - Explore the `url-shortener` folder for detailed documentation.
+  - Ensure Node.js is installed on your system.
+  - Run `npm install` to install dependencies.
+  - Customize the environment variables in the `.env` file.
+  - Run the application using `npm start`.
+  - Open your browser and navigate to `http://localhost:3000` to access the URL Shortener App.
+- **Note:** Customize the environment variables and configurations as per your preferences and security requirements.
 
 Feel free to explore the individual project folders for detailed documentation and instructions on running each project. Happy coding!
