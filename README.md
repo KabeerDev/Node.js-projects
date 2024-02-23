@@ -63,4 +63,21 @@ Welcome to the Node.js Projects repository! This Git repository hosts a collecti
   - Open your browser and navigate to `http://localhost:3000` to access the Blog App.
 - **Note:** Customize the environment variables and configurations as per your preferences and security requirements.
 
+### 5. Real-time Chat Application
+
+- **Description:** A real-time chat application built with Socket.io, Node.js, Express.js, HTML, and CSS.
+- **Technologies:** HTML, CSS, Node.js, Express.js, Socket.io.
+- **Features:**
+  - Real-time messaging with WebSocket communication.
+  - Multiple users can join and participate in different chat rooms.
+  - Simple and intuitive user interface.
+- **Instructions:**
+  - Explore the `chat-app` folder for detailed documentation.
+  - Ensure Node.js is installed on your system.
+  - Run `npm install` to install dependencies.
+  - Customize the environment variables in the `.env` file.
+  - Run the application using `npm start`.
+  - Open your browser and navigate to `http://localhost:3000` to access the Real-time Chat Application.
+- **Note:** Customize the environment variables and configurations as per your preferences and security requirements.
+
 Feel free to explore the individual project folders for detailed documentation and instructions on running each project. Happy coding!
