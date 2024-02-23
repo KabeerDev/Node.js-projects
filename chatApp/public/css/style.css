@@ -1,0 +1,97 @@
+body {
+  background: linear-gradient(
+    to bottom,
+    rgb(255, 255, 255) -20%,
+    rgb(10, 195, 31)
+  );
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.logo {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.logo img {
+  width: 3rem;
+}
+
+.container {
+  max-width: 30rem;
+  height: 70vh;
+  margin: 20px auto;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 20px 10px;
+}
+
+.wrap {
+    height: 90%;
+    overflow: auto;
+}
+
+.message {
+  background: #fff;
+  width: fit-content;
+  padding: 5px;
+  margin: 10px;
+  border-radius: 3px;
+  position: relative;
+}
+
+.right {
+  float: right;
+  clear: both;
+  background: #51d460;
+  color: white;
+}
+
+.left {
+  float: left;
+  clear: both;
+}
+
+#send_container {
+  width: fit-content;
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  bottom: 80px;
+  left: 36%;
+}
+
+#send_container #messageInp {
+  border: none;
+  border-radius: 20px;
+  width: 20rem;
+  padding: 5px 15px;
+  font-size: 1rem;
+  outline: none;
+}
+
+#submit {
+  background: none;
+  border: none;
+  cursor: pointer;
+  background: white;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  position: relative;
+}
+
+#submit img {
+  position: absolute;
+  top: 7px;
+  left: 5px;
+}

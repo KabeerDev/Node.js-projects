@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatShat</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <img src="./img/logo.png" alt="image for logo" />
+      </div>
+    </nav>
+    <div class="container">
+      <div class="wrap"></div>
+    </div>
+    <div class="send">
+      <div id="send_container">
+        <input type="text" name="messageInp" id="messageInp" />
+        <button name="send" id="submit">
+          <img
+            src="https://cdn.hugeicons.com/icons/sent-stroke-sharp.svg"
+            alt="sent"
+            width="24"
+            height="24"
+          />
+        </button>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/client.js"></script>
+  </body>
+</html>
