@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.send("hello world!");
+  res.send("<h1>Hello World!</h1>");
 });
 
 app.use("/", signup);
