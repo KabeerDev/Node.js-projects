@@ -45,4 +45,22 @@ Welcome to the Node.js Projects repository! This Git repository hosts a collecti
   - Open your browser and navigate to `http://localhost:3000` to access the URL Shortener App.
 - **Note:** Customize the environment variables and configurations as per your preferences and security requirements.
 
+### 4. Blog App
+
+- **Description:** A Blog application with token-based authentication, allowing users to create blog posts, comment on posts, and customize their blog page.
+- **Technologies:** HTML, Bootstrap, Node.js, Express.js, EJS, Token Authentication.
+- **Features:**
+  - User authentication for secure access.
+  - Create, update, and delete blog posts.
+  - Comment on blog posts with author names.
+  - Individual blog pages for each post.
+- **Instructions:**
+  - Explore the `blog-app` folder for detailed documentation.
+  - Ensure Node.js is installed on your system.
+  - Run `npm install` to install dependencies.
+  - Customize the environment variables in the `.env` file.
+  - Run the application using `npm start`.
+  - Open your browser and navigate to `http://localhost:3000` to access the Blog App.
+- **Note:** Customize the environment variables and configurations as per your preferences and security requirements.
+
 Feel free to explore the individual project folders for detailed documentation and instructions on running each project. Happy coding!
