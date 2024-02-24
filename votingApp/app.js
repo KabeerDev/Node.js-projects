@@ -4,19 +4,23 @@ const app = express();
 const port = process.env.PORT || 3000;
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const signup = require("./route/user");
+const auth = require("./route/user");
 const dotenv = require("dotenv").config();
+const { checkUser } = require("./middleware/checkUser");
 
 app.set("view engine", "ejs");
+app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-  res.send("<h1>Hello World!</h1>");
+app.get("/", checkUser, (req, res) => {
+  res.render("index", {
+    userData: req.user
+  });
 });
 
-app.use("/", signup);
+app.use("/", auth);
 
 app.listen(port, () => {
   console.log(`port started on ${port}`);
