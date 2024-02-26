@@ -30,6 +30,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  p_img: {
+    type: String,
+  },
   role: {
     type: String,
     enum: ["voter", "admin"],
@@ -45,7 +48,7 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
   const data = this;
-  const salt = await bcrypt.genSalt(8);
+  const salt = await bcrypt.genSalt(12);
   const h_pass = await bcrypt.hash(data.password, salt);
   this.password = h_pass;
   return next()

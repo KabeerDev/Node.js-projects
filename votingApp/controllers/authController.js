@@ -1,5 +1,6 @@
-const { user, comparePassword } = require("./../model/user");
-const { generateToken } = require("./../jwt");
+const { user, comparePassword } = require("../model/user");
+const { generateToken } = require("../jwt");
+const bcrypt = require("bcrypt");
 
 function validateCNIC(cnic) {
     // Remove dashes or spaces if present
@@ -51,6 +52,12 @@ async function handleSignup(req, res) {
             return res.render("signup", { error: "Password must contain 4 to 12 characters!" });
         }
 
+        if (req.file) {
+            data.p_img = req.file.filename;
+        } else {
+            data.p_img = "default.png";
+        }
+
         const newUser = new user(data);
         const response = await newUser.save();
 
@@ -65,6 +72,7 @@ async function handleSignup(req, res) {
         res.status(500).json({ error: "Intenal server error" });
     }
 }
+
 async function handleLogin(req, res) {
     try {
         const { naIdCardNo, password } = req.body;
@@ -73,7 +81,7 @@ async function handleLogin(req, res) {
 
         const isValid = await validateCNIC(naIdCardNo);
 
-        if (!isValid) return res.render("signup", { error: "Invalid CNIC" })
+        if (!isValid) return res.render("login", { error: "Invalid CNIC" })
 
         const userData = await user.findOne({ naIdCardNo: naIdCardNo });
 
@@ -100,4 +108,39 @@ async function handleLogout(req, res) {
     res.redirect("/login");
 }
 
-module.exports = { handleSignup, handleLogin, handleLogout };
+async function changePass(req, res) {
+    try {
+        const { password_old, password, userId } = req.body;
+
+        const userData = await user.findById(userId);
+
+        if (!password_old && !password) return res.render("changePassword", { error: "Please fill all the feilds!" });
+
+        const passMatched = await comparePassword(password_old, userData.password);
+
+        if (passMatched == false) return res.render("changePassword", { error: "Incorrect Password!", userData });
+
+        const new_passMatched = await comparePassword(password, userData.password);
+
+        if (new_passMatched == true) return res.render("changePassword", { error: "Please select a new password!", userData });
+
+        if (password.length > 12 || password.length < 4) {
+            return res.render("changePassword", { error: "Password must contain 4 to 12 characters!", userData });
+        }
+        const salt = await bcrypt.genSalt(12);
+        const h_pass = await bcrypt.hash(password, salt);
+
+        const updatedData = await user.findByIdAndUpdate(userData._id, { password: h_pass });
+
+        if (!updatedData) return res.render("changePassword", { error: "something went wrong. Try again!", userData });
+
+        res.clearCookie("token");
+
+        return res.redirect("/login");
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: "Intenal server error" });
+    }
+}
+
+module.exports = { handleSignup, handleLogin, handleLogout, changePass };

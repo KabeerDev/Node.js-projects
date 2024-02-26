@@ -4,7 +4,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const auth = require("./route/user");
+const auth = require("./routes/user");
 const dotenv = require("dotenv").config();
 const { checkUser } = require("./middleware/checkUser");
 

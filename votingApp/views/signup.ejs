@@ -16,7 +16,7 @@
                     <%= error %>
                 </div>
                 <% }; %>
-                    <form action="/signup" method="post">
+                    <form action="/signup" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="mb-3 col-6">
                                 <label for="name" class="form-label">Full Name*</label>
@@ -52,6 +52,12 @@
                             <div class="mb-3 col-12">
                                 <label for="cnic" class="form-label">CNIC*</label>
                                 <input type="string" class="form-control" id="cnic" name="naIdCardNo">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-12">
+                                <label for="p_img" class="form-label">Choose Profile Picture</label>
+                                <input type="file" class="form-control" id="p_img" name="p_img">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-success">Sign up</button>
