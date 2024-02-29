@@ -5,8 +5,9 @@ const port = process.env.PORT || 3000;
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const auth = require("./routes/user");
+const admin = require("./routes/admin");
 const dotenv = require("dotenv").config();
-const { checkUser } = require("./middleware/checkUser");
+const { checkUser, restrictUser } = require("./middleware/checkUser");
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -21,6 +22,7 @@ app.get("/", checkUser, (req, res) => {
 });
 
 app.use("/", auth);
+app.use("/admin", admin);
 
 app.listen(port, () => {
   console.log(`port started on ${port}`);

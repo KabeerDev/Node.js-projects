@@ -13,6 +13,7 @@ async function checkUser(req, res, next) {
 async function restrictUser(req, res, next) {
     const token = req.cookies.token;
     if (!token) return res.redirect("/login");
+    
     const id = await verifyToken(token, process.env.JWT_SECRET);
     const userdata = await user.findOne({ _id: id.id });
     req.user = userdata;
