@@ -18,7 +18,8 @@
                     <%= error %>
                 </div>
                 <% }; %>
-                    <form action="/add-party" method="post">
+                    <form action="/admin/add-party" method="post">
+                        <input type="hidden" value="<%= userData._id %>" name="id">
                         <div class="row">
                             <div class="mb-3 col-12">
                                 <label for="p_name" class="form-label">Party Name*</label>

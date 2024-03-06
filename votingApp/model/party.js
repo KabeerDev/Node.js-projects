@@ -15,5 +15,5 @@ const partySchema = new mongoose.Schema({
   }
 });
 
-const party = mongoose.model("user", partySchema);
-module.exports = party;
+const party = mongoose.model("party", partySchema);
+module.exports = { party };

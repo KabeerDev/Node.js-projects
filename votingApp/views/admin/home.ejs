@@ -14,9 +14,11 @@
 
         <h1 class="text-center text-success fw-bold mt-4">All Parties</h1>
 
+        <div class="bg-success text-white mb-3 p-2 text-center success_msg"></div>
+
         <div class="container">
-            <a href="/admin/add-party" class="btn btn-success"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-                    fill="#fff" class="bi bi-plus" viewBox="0 0 16 16">
+            <a href="/admin/add-party" class="btn btn-success"><svg xmlns="http://www.w3.org/2000/svg" width="25"
+                    height="25" fill="#fff" class="bi bi-plus" viewBox="0 0 16 16">
                     <path
                         d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
                 </svg> Add A New Party</a>
@@ -25,31 +27,57 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Party Name</th>
+                        <th scope="col">Party Motive</th>
                         <th scope="col">Total Candidates</th>
-                        <th scope="col">won</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>@fat</td>
-                    </tr>
+                    <% allParties.forEach(party=> { %>
+                        <tr>
+                            <th scope="row">
+                                <%= s_no++ %>
+                            </th>
+                            <td>
+                                <%= party.partyName %>
+                            </td>
+                            <td>
+                                <%= party.motive.slice(0,80) %>...
+                            </td>
+                            <td>
+                                <%= party.totalCandidates %>
+                            </td>
+                            <td class="">
+                                <a class="btn btn-sm btn-info text-white mb-1"
+                                    href="/admin/edit/<%= party._id %>">Edit</a>
+                                <button class="btn btn-sm btn-danger delete_btn" id="<%= party._id %>">Delete</button>
+                            </td>
+                        </tr>
+                        <% }) %>
                 </tbody>
             </table>
         </div>
-
         <%- include('../components/footer'); %>
+            <script>
+                $(".success_msg").hide();
+
+                $(".delete_btn").click(function () {
+                    const id = this.id;
+                    $.ajax({
+                        url: `/admin/delete`,
+                        type: "DELETE",
+                        data: { id },
+                        success: function (data) {
+                            $(".success_msg").fadeIn();
+                            $(".success_msg").text(data.message);
+                            setTimeout(() => {
+                                $(".success_msg").fadeOut();
+                            }, 2000);
+                        }
+                    });
+                    $(this).closest("tr").fadeOut();
+                });
+            </script>
 </body>
 
 </html>
