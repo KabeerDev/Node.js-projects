@@ -16,7 +16,11 @@
                     <li class="nav-item">
                         <a class="nav-link text-light fs-5 active" aria-current="page" href="/signup">Signup</a>
                     </li>
-                    <% }; %>
+                    <% }else {%>
+                        <li class="nav-item">
+                            <a class="nav-link fs-6 text-light fs-5 active" aria-current="page" href="/admin/add-candidate">Add Candidate</a>
+                        </li>
+                        <% };%>
             </ul>
             <span class="text-white"></span>
             <form class="d-flex" role="search">

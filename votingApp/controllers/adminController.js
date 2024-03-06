@@ -1,4 +1,5 @@
 const { party } = require("../model/party");
+const { candidate } = require("../model/candidate");
 const { user } = require("../model/user");
 
 async function index(req, res) {
@@ -80,4 +81,41 @@ async function editParty(req, res) {
     }
 }
 
-module.exports = { addParty, index, deleteParty, editParty };
+async function addCandidate(req, res) {
+    if (req.method == "POST") {
+        const { c_name, c_age, c_party, u_id } = req.body;
+
+        const userData = await user.findById(u_id);
+
+        if (c_name == "" && c_age == "" && c_party == "") return res.render("admin/partyEdit", {
+            error: "Please fill all the mandatory feilds!",
+            userData
+        });
+
+        if (c_age < 25) return res.render("admin/partyEdit", {
+            error: "Minimum 25 age is required!",
+            userData
+        });;
+
+        const newCandidate = new candidate({ name: c_name, age: c_age, party: c_party });
+
+        const response = await newCandidate.save();
+
+        if (!response) return res.json({ message: "Something went wrong please try again!" });
+
+        const increaseCandidateCount = await party.updateOne({ partyName: c_party }, { $inc: { totalCandidates: 1 } });
+
+        if (!increaseCandidateCount) return res.json({ message: "Something went wrong please try again!" });
+
+        return res.redirect("/admin");
+    } else {
+        const parties = await party.find();
+
+        res.render("admin/addCandidate", {
+            userData: req.user,
+            parties,
+        })
+    }
+}
+
+module.exports = { addParty, index, deleteParty, editParty, addCandidate };

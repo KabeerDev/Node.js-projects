@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const restrictAdmin = require("./../middleware/admin");
-const { addParty, index, deleteParty, editParty } = require("./../controllers/adminController");
+const { addParty, index, deleteParty, editParty, addCandidate } = require("./../controllers/adminController");
 
 router.get("/", restrictAdmin, index);
 
@@ -18,5 +18,9 @@ router.delete("/delete", restrictAdmin, deleteParty);
 router.get("/edit/:id", restrictAdmin, editParty);
 
 router.post("/edit/:id", restrictAdmin, editParty);
+
+router.get("/add-candidate", restrictAdmin, addCandidate);
+
+router.post("/add-candidate", restrictAdmin, addCandidate);
 
 module.exports = router;
