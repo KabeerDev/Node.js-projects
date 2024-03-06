@@ -22,40 +22,45 @@
                     <path
                         d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
                 </svg> Add A New Party</a>
-            <table class="table my-4 border border-dark table-info table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Party Name</th>
-                        <th scope="col">Party Motive</th>
-                        <th scope="col">Total Candidates</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% allParties.forEach(party=> { %>
+            <% if(allParties.length> 0){ %>
+                <table class="table my-4 border border-dark table-info table-striped">
+                    <thead>
                         <tr>
-                            <th scope="row">
-                                <%= s_no++ %>
-                            </th>
-                            <td>
-                                <%= party.partyName %>
-                            </td>
-                            <td>
-                                <%= party.motive.slice(0,80) %>...
-                            </td>
-                            <td>
-                                <%= party.totalCandidates %>
-                            </td>
-                            <td class="">
-                                <a class="btn btn-sm btn-info text-white mb-1"
-                                    href="/admin/edit/<%= party._id %>">Edit</a>
-                                <button class="btn btn-sm btn-danger delete_btn" id="<%= party._id %>">Delete</button>
-                            </td>
+                            <th scope="col">#</th>
+                            <th scope="col">Party Name</th>
+                            <th scope="col">Party Motive</th>
+                            <th scope="col">Total Candidates</th>
+                            <th scope="col">Actions</th>
                         </tr>
-                        <% }) %>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <% allParties.forEach(party=> { %>
+                            <tr>
+                                <th scope="row">
+                                    <%= s_no++ %>
+                                </th>
+                                <td>
+                                    <%= party.partyName %>
+                                </td>
+                                <td>
+                                    <%= party.motive.slice(0,80) %>...
+                                </td>
+                                <td>
+                                    <%= party.totalCandidates %>
+                                </td>
+                                <td class="">
+                                    <a class="btn btn-sm btn-info text-white mb-1"
+                                        href="/admin/edit/<%= party._id %>">Edit</a>
+                                    <button class="btn btn-sm btn-danger delete_btn"
+                                        id="<%= party._id %>">Delete</button>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+                <% }else { %>
+                    <div class="my-4 fs-1 text-center text-success fw-semibold">No Parties Yet!</div>
+                    <% }; %>
         </div>
         <%- include('../components/footer'); %>
             <script>
