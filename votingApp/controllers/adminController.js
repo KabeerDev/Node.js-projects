@@ -41,8 +41,14 @@ async function addParty(req, res) {
 
 async function deleteParty(req, res) {
     const { id } = req.body;
+    const findParty = await party.findById(id);
+
+    const deleteCandidate = await candidate.deleteMany({ party: findParty.partyName })
+
+    if (!deleteCandidate) return res.json({ message: "Something went wrong please try again!" });
+
     const response = await party.findByIdAndDelete(id);
-    if (!response) return res.redirect("/admin");
+    if (!response) return res.json({ message: "Something went wrong please try again!" });
 
     return res.json({ message: "Party Deleted!" });
 }
@@ -130,8 +136,19 @@ async function allCandidate(req, res) {
 
 async function deleteCandidate(req, res) {
     const { id } = req.body;
+    const findCandidate = await candidate.find({ _id: id });
+
+    console.log(findCandidate)
+
+    if (!findCandidate) return res.json({ message: "Candidate does not exist!" });
+
+    const updateParty = await party.updateOne({ partyName: findCandidate[0].party }, { $inc: { totalCandidates: -1 } });
+    
+    if (!updateParty) return res.json({ message: "Something went wrong please try again!" });
+
     const response = await candidate.findByIdAndDelete(id);
-    if (!response) return res.redirect("/admin");
+
+    if (!response) return res.json({ message: "Something went wrong please try again!" });
 
     return res.json({ message: "Candidate Deleted!" });
 }
