@@ -126,10 +126,12 @@ async function addCandidate(req, res) {
 
 async function allCandidate(req, res) {
     let allCandidates = await candidate.find().lean();
+    let parties = await party.find();
 
     res.render("admin/allCandidates", {
         userData: req.user,
         allCandidates,
+        parties,
         s_no: 1
     });
 }
@@ -143,7 +145,7 @@ async function deleteCandidate(req, res) {
     if (!findCandidate) return res.json({ message: "Candidate does not exist!" });
 
     const updateParty = await party.updateOne({ partyName: findCandidate[0].party }, { $inc: { totalCandidates: -1 } });
-    
+
     if (!updateParty) return res.json({ message: "Something went wrong please try again!" });
 
     const response = await candidate.findByIdAndDelete(id);
@@ -197,4 +199,57 @@ async function editCandidate(req, res) {
     }
 }
 
-module.exports = { addParty, index, deleteParty, editParty, addCandidate, allCandidate, deleteCandidate, editCandidate };
+async function getCandidates(req, res) {
+    if (req.query.filter) {
+        var filter_term = await req.query.filter;
+    } else {
+        var filter_term = "all";
+    }
+
+    if (filter_term == "all") {
+        var candidates = await candidate.find()
+    } else {
+        var candidates = await candidate.find({ party: filter_term })
+    }
+
+    if (candidates.length > 0) {
+        let s_no = 1;
+
+        let data = `<table class="table w-75 mx-auto my-4 border border-dark table-info table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Party</th>
+                <th scope="col">Votes</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>`;
+        candidates.forEach(candidate => {
+
+            data += `<tr>
+                        <th scope="row">${s_no}</th>
+                        <td>${candidate.name}</td>
+                        <td>${candidate.party}</td>
+                        <td>${candidate.voteCount}</td>
+                        <td>
+                            <a class="btn btn-sm btn-info text-white mb-1"
+                                href="/admin/edit-candidate/${candidate._id}">Edit</a>
+                            <button class="btn btn-sm btn-danger delete_btn"
+                                id="${candidate._id}">Delete</button>
+                        </td>
+                    </tr>`;
+            s_no++;
+        })
+        data += `</tbody>
+    </table>`;
+
+        return res.json({ message: data })
+    } else {
+        return res.json({ message: "No Candidates Yet!" })
+    }
+
+}
+
+module.exports = { addParty, index, deleteParty, editParty, addCandidate, allCandidate, deleteCandidate, editCandidate, getCandidates };

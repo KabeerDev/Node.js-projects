@@ -17,56 +17,29 @@
         <div class="bg-success text-white mb-3 p-2 text-center success_msg"></div>
 
         <div class="container">
-            <a href="/admin/add-candidate" class="btn btn-success"><svg xmlns="http://www.w3.org/2000/svg" width="25"
-                    height="25" fill="#fff" class="bi bi-plus" viewBox="0 0 16 16">
-                    <path
-                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                </svg> Add A New Candidate</a>
-            <% if(allCandidates.length> 0){ %>
-                <table class="table w-75 mx-auto my-4 border border-dark table-info table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Party</th>
-                            <th scope="col">Votes</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% allCandidates.forEach(candidate=> { %>
-                            <tr>
-                                <th scope="row">
-                                    <%= s_no++ %>
-                                </th>
-                                <td>
-                                    <%= candidate.name %>
-                                </td>
-                                <td>
-                                    <%= candidate.party%>
-                                </td>
-                                <td>
-                                    <%= candidate.voteCount %>
-                                </td>
-                                <td class="">
-                                    <a class="btn btn-sm btn-info text-white mb-1"
-                                        href="/admin/edit-candidate/<%= candidate._id %>">Edit</a>
-                                    <button class="btn btn-sm btn-danger delete_btn"
-                                        id="<%= candidate._id %>">Delete</button>
-                                </td>
-                            </tr>
-                            <% }) %>
-                    </tbody>
-                </table>
-                <% }else { %>
-                    <div class="my-4 fs-1 text-center text-success fw-semibold">No Candidates Yet!</div>
-                    <% }; %>
+            <div class="container d-flex justify-content-between row">
+                <a href="/admin/add-candidate" class="col-3 btn btn-success"><svg xmlns="http://www.w3.org/2000/svg"
+                        width="25" height="25" fill="#fff" class="bi bi-plus" viewBox="0 0 16 16">
+                        <path
+                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                    </svg> Add A New Candidate</a>
+                <select class="col-3" id="all-parties">
+                    <option value="all">All</option>
+                    <% parties.forEach(party=> { %>
+                        <option value="<%= party.partyName %>">
+                            <%= party.partyName.toUpperCase() %>
+                        </option>
+                        <% }) %>
+                </select>
+            </div>
+            <div class="table_container"></div>
+            <div class="my-4 noRecord fs-1 text-center text-success fw-semibold"></div>
         </div>
         <%- include('../components/footer'); %>
             <script>
                 $(".success_msg").hide();
 
-                $(".delete_btn").click(function () {
+                $(document).on("click", ".delete_btn", function () {
                     const id = this.id;
                     $.ajax({
                         url: `/admin/delete-candidate`,
@@ -81,6 +54,30 @@
                         }
                     });
                     $(this).closest("tr").fadeOut();
+                });
+
+                function loadTable(value = "all") {
+                    $(".table_container").html("");
+                    $.ajax({
+                        url: `/admin/candidates?filter=${value}`,
+                        type: "GET",
+                        success: function (data) {
+                            if (data.message == "No Candidates Yet!") {
+                                $(".noRecord").show()
+                                return $(".noRecord").text(data.message);
+                            } else {
+                                $(".noRecord").hide()
+                            }
+                            return $(".table_container").html(data.message);
+                        }
+                    });
+                }
+
+                loadTable();
+
+                $("#all-parties").change(function () {
+                    const value = $(this).val();
+                    loadTable(value);
                 });
             </script>
 </body>
