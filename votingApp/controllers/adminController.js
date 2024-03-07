@@ -107,7 +107,7 @@ async function addCandidate(req, res) {
 
         if (!increaseCandidateCount) return res.json({ message: "Something went wrong please try again!" });
 
-        return res.redirect("/admin");
+        return res.redirect("/admin/all-candidate");
     } else {
         const parties = await party.find();
 
@@ -118,4 +118,66 @@ async function addCandidate(req, res) {
     }
 }
 
-module.exports = { addParty, index, deleteParty, editParty, addCandidate };
+async function allCandidate(req, res) {
+    let allCandidates = await candidate.find().lean();
+
+    res.render("admin/allCandidates", {
+        userData: req.user,
+        allCandidates,
+        s_no: 1
+    });
+}
+
+async function deleteCandidate(req, res) {
+    const { id } = req.body;
+    const response = await candidate.findByIdAndDelete(id);
+    if (!response) return res.redirect("/admin");
+
+    return res.json({ message: "Candidate Deleted!" });
+}
+
+async function editCandidate(req, res) {
+    if (req.method == "POST") {
+        const c_id = req.params.id;
+        const { c_name, c_age, c_party, old_party, u_id } = req.body;
+
+        const userData = await user.findById(u_id);
+
+        if (c_name == "" && c_age == "" && c_party == "") return res.render("admin/candidateEdit", {
+            error: "Please fill all the mandatory feilds!",
+            userData
+        });
+
+        if (c_age < 25) return res.render("admin/partyEdit", {
+            error: "Candidate age must be above 25!",
+            userData
+        });;
+
+        const response = await candidate.findByIdAndUpdate(c_id, { name: c_name, age: c_age, party: c_party });
+
+        if (!response) return res.json({ message: "Something went wrong please try again!" });
+
+        if (old_party !== c_party) {
+            const decreaseCandidateCount = await party.updateOne({ partyName: old_party }, { $inc: { totalCandidates: -1 } });
+
+            const increaseCandidateCount = await party.updateOne({ partyName: c_party }, { $inc: { totalCandidates: 1 } });
+
+            if (!increaseCandidateCount || !decreaseCandidateCount) return res.json({ message: "Something went wrong please try again!" });
+        }
+
+        return res.redirect("/admin/all-candidate");
+    } else {
+        const id = req.params.id;
+
+        const c_data = await candidate.findById(id);
+        const parties = await party.find();
+
+        res.render("admin/candidateEdit", {
+            userData: req.user,
+            c_data,
+            parties,
+        })
+    }
+}
+
+module.exports = { addParty, index, deleteParty, editParty, addCandidate, allCandidate, deleteCandidate, editCandidate };

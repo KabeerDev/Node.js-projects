@@ -17,16 +17,19 @@
                     <%= error %>
                 </div>
                 <% }; %>
-                    <form action="/admin/add-candidate" method="post">
-                        <input type="hidden" value="<%= userData._id %>" name="u_ xid">
+                    <form action="/admin/edit-candidate/<%= c_data._id %>" method="post">
+                        <input type="hidden" value="<%= userData._id %>" name="u_id">
+                        <input type="hidden" value="<%= c_data.party %>" name="old_party">
                         <div class="row">
                             <div class="mb-3 col-6">
                                 <label for="c_name" class="form-label">Candidate Name*</label>
-                                <input type="text" class="form-control" min="25" id="c_name" name="c_name">
+                                <input type="text" class="form-control" min="25" id="c_name" name="c_name"
+                                    value="<%= c_data.name %>">
                             </div>
                             <div class="mb-3 col-6">
                                 <label for="c_age" class="form-label">Age*</label>
-                                <input type="number" class="form-control" id="c_age" name="c_age">
+                                <input type="number" class="form-control" id="c_age" name="c_age"
+                                    value="<%= c_data.age %>">
                             </div>
                         </div>
                         <div class="row">
@@ -35,9 +38,9 @@
                                 <select class="form-select" name="c_party" id="c_party"
                                     aria-label="Default select example">
                                     <% parties.forEach(party=> { %>
-                                        <option selected hidden>Select Party</option>
-                                        <option value="<%= party.partyName %>">
-                                            <%= party.partyName.toUpperCase() %>
+                                        <option <%= c_data.party===party.partyName? "selected" : "" %> value="<%=
+                                                party.partyName %>">
+                                                <%= party.partyName.toUpperCase() %>
                                         </option>
                                         <% }) %>
                                 </select>
