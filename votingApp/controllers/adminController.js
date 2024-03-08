@@ -3,12 +3,8 @@ const { candidate } = require("../model/candidate");
 const { user } = require("../model/user");
 
 async function index(req, res) {
-    let allParties = await party.find().lean();
-
     res.render("admin/home", {
         userData: req.user,
-        allParties,
-        s_no: 1
     });
 }
 
@@ -125,14 +121,11 @@ async function addCandidate(req, res) {
 }
 
 async function allCandidate(req, res) {
-    let allCandidates = await candidate.find().lean();
     let parties = await party.find();
 
     res.render("admin/allCandidates", {
         userData: req.user,
-        allCandidates,
         parties,
-        s_no: 1
     });
 }
 
@@ -206,13 +199,44 @@ async function getCandidates(req, res) {
         var filter_term = "all";
     }
 
+
     if (filter_term == "all") {
-        var candidates = await candidate.find()
+        var totalCandidates = await candidate.countDocuments();
     } else {
-        var candidates = await candidate.find({ party: filter_term })
+        var totalCandidates = await candidate.countDocuments({ party: filter_term });
     }
 
-    if (candidates.length > 0) {
+    let pageNo = req.query.page_no;
+    let totalRecords = totalCandidates;
+    let limit = 3;
+    let offset = (pageNo - 1) * limit;
+    let totalPages = Math.ceil(totalRecords / limit);
+    let p_disabled;
+    let n_disabled;
+
+    if (filter_term == "all") {
+        var candidates = await candidate.find().limit(limit)
+            .skip(offset)
+            .exec();
+    } else {
+        var candidates = await candidate.find({ party: filter_term }).limit(limit)
+            .skip(offset)
+            .exec();
+    }
+
+    if (pageNo <= 1) {
+        p_disabled = "disabled";
+    } else {
+        p_disabled = "";
+    }
+
+    if (pageNo >= totalPages) {
+        n_disabled = "disabled";
+    } else {
+        n_disabled = "";
+    }
+
+    if (totalCandidates > 0) {
         let s_no = 1;
 
         let data = `<table class="table w-75 mx-auto my-4 border border-dark table-info table-striped">
@@ -243,7 +267,27 @@ async function getCandidates(req, res) {
             s_no++;
         })
         data += `</tbody>
-    </table>`;
+    </table>
+    <div class="container d-flex justify-content-center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li id="${pageNo}" class="page-item prev ${p_disabled}">
+                            <a class="page-link"getParties aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>`;
+
+        for (let i = 0; i < totalPages; i++) {
+            data += `<li id="${i + 1}" class="page-item"><a class="page-link">${i + 1}</a></li>`;
+        }
+        data += `<li id="${pageNo}" class="page-item next ${n_disabled}">
+                            <a class="page-link"getParties aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>`;
 
         return res.json({ message: data })
     } else {
@@ -252,4 +296,90 @@ async function getCandidates(req, res) {
 
 }
 
-module.exports = { addParty, index, deleteParty, editParty, addCandidate, allCandidate, deleteCandidate, editCandidate, getCandidates };
+async function getParties(req, res) {
+    var totalparties = await party.countDocuments();
+
+    let pageNo = req.query.page_no;
+    let totalRecords = totalparties;
+    let limit = 3;
+    let offset = (pageNo - 1) * limit;
+    let totalPages = Math.ceil(totalRecords / limit);
+    let p_disabled;
+    let n_disabled;
+
+    let parties = await party.find().limit(limit).skip(offset).exec();
+
+    if (pageNo <= 1) {
+        p_disabled = "disabled";
+    } else {
+        p_disabled = "";
+    }
+
+    if (pageNo >= totalPages) {
+        n_disabled = "disabled";
+    } else {
+        n_disabled = "";
+    }
+
+    if (totalparties > 0) {
+        let s_no = 1;
+
+        let data = `<table class="table my-4 border border-dark table-info table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Party Name</th>
+                <th scope="col">Party Motive</th>
+                <th scope="col">Total Candidates</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>`;
+
+        parties.forEach(party => {
+            data += `<tr>
+                    <th scope="row">${s_no}</th>
+                    <td>${party.partyName}</td>
+                    <td>${party.motive}</td>
+                    <td>${party.totalCandidates}</td>
+                    <td class="">
+                        <a class="btn btn-sm btn-info text-white mb-1"
+                            href="/admin/edit/${party._id}">Edit</a>
+                        <button class="btn btn-sm btn-danger delete_btn"
+                            id="${party._id}">Delete</button>
+                    </td>
+                </tr>`;
+            s_no++;
+        });
+        data += `</tbody>
+    </table>
+    <div class="container d-flex justify-content-center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li id="${pageNo}" class="page-item prev ${p_disabled}">
+                            <a class="page-link"getParties aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>`;
+
+        for (let i = 0; i < totalPages; i++) {
+            data += `<li id="${i + 1}" class="page-item"><a class="page-link">${i + 1}</a></li>`;
+        }
+        data += `<li id="${pageNo}" class="page-item next ${n_disabled}">
+                            <a class="page-link"getParties aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>`;
+
+
+        return res.json({ message: data });
+    } else {
+        return res.json({ message: "No Candidates Yet!" })
+    }
+
+}
+
+module.exports = { addParty, index, deleteParty, editParty, addCandidate, allCandidate, deleteCandidate, editCandidate, getCandidates, getParties };

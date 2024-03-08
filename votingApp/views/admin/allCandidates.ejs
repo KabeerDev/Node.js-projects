@@ -56,13 +56,13 @@
                     $(this).closest("tr").fadeOut();
                 });
 
-                function loadTable(value = "all") {
-                    $(".table_container").html("");
+                function loadTable(value = "all", pageNo = 1) {
                     $.ajax({
-                        url: `/admin/candidates?filter=${value}`,
+                        url: `/admin/candidates?filter=${value}&&page_no=${pageNo}`,
                         type: "GET",
                         success: function (data) {
                             if (data.message == "No Candidates Yet!") {
+                                $(".table_container").html("");
                                 $(".noRecord").show()
                                 return $(".noRecord").text(data.message);
                             } else {
@@ -79,6 +79,32 @@
                     const value = $(this).val();
                     loadTable(value);
                 });
+
+                $(document).on("click", ".page-item", function () {
+                    let pageNo = this.id;
+                    const value = $("#all-parties").val();
+                    loadTable(value, pageNo);
+                })
+
+                $(document).on("click", ".prev", function () {
+                    if ($(this).hasClass("disabled")) {
+                        return null;
+                    } else {
+                        let pageNo = parseInt(this.id) - 1;
+                        const value = $("#all-parties").val();
+                        return loadTable(value, pageNo);
+                    }
+                })
+
+                $(document).on("click", ".next", function () {
+                    if ($(this).hasClass("disabled")) {
+                        return null;
+                    } else {
+                        let pageNo = parseInt(this.id) + 1;
+                        const value = $("#all-parties").val();
+                        return loadTable(value, pageNo);
+                    }
+                })
             </script>
 </body>
 
