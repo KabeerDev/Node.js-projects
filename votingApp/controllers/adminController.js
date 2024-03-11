@@ -9,11 +9,11 @@ async function index(req, res) {
 }
 
 async function addParty(req, res) {
-    const { p_name, p_motive, id } = req.body;
+    const { p_name, p_motive, p_flag, id } = req.body;
 
     const userData = await user.findById(id);
 
-    if (p_name == "" && p_motive == "") return res.render("admin/addParty", {
+    if (p_name == "" || p_motive == "" || p_flag == "") return res.render("admin/addParty", {
         error: "Please fill all the mandatory feilds!",
         userData
     });
@@ -23,7 +23,9 @@ async function addParty(req, res) {
         userData
     });
 
-    const newParty = new party({ partyName: p_name, motive: p_motive });
+    flag = req.file.filename;
+
+    const newParty = new party({ partyName: p_name, motive: p_motive, flag: flag });
     const response = await newParty.save();
 
     if (!response) return res.render("admin/addParty", {
@@ -340,7 +342,7 @@ async function getParties(req, res) {
             data += `<tr>
                     <th scope="row">${s_no}</th>
                     <td>${party.partyName}</td>
-                    <td>${party.motive}</td>
+                    <td>${party.motive.slice(0, 80)}...</td>
                     <td>${party.totalCandidates}</td>
                     <td class="">
                         <a class="btn btn-sm btn-info text-white mb-1"

@@ -1,9 +1,21 @@
 const express = require("express");
 const router = express.Router();
+const multer = require('multer');
 const restrictAdmin = require("./../middleware/admin");
 const { addParty, index, deleteParty, editParty, addCandidate, allCandidate, deleteCandidate, editCandidate, getCandidates, getParties } = require("./../controllers/adminController");
 
 router.get("/", restrictAdmin, index);
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/p_flag_image/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
 
 router.get("/add-party", restrictAdmin, (req, res) => {
     res.render("admin/addParty", {
@@ -11,7 +23,7 @@ router.get("/add-party", restrictAdmin, (req, res) => {
     });
 });
 
-router.post("/add-party", restrictAdmin, addParty);
+router.post("/add-party", restrictAdmin, upload.single('p_flag'), addParty);
 
 router.delete("/delete", restrictAdmin, deleteParty);
 

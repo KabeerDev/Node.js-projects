@@ -9,6 +9,10 @@ const partySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  flag: {
+    type: String,
+    required: true,
+  },
   totalCandidates: {
     type: Number,
     default: 0,

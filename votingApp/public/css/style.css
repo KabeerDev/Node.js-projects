@@ -59,3 +59,7 @@
 .success {
     transition: all 1s ease;
 }
+
+.page-item {
+    cursor: pointer;
+}

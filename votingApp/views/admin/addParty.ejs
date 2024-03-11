@@ -18,7 +18,7 @@
                     <%= error %>
                 </div>
                 <% }; %>
-                    <form action="/admin/add-party" method="post">
+                    <form action="/admin/add-party" method="post" enctype="multipart/form-data">
                         <input type="hidden" value="<%= userData._id %>" name="id">
                         <div class="row">
                             <div class="mb-3 col-12">
@@ -30,6 +30,12 @@
                             <div class="mb-3 col-12">
                                 <label for="p_motive" class="form-label">Party Motive*</label>
                                 <textarea class="form-control" id="p_motive" name="p_motive"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-12">
+                                <label for="p_flag" class="form-label">Party Flag*</label>
+                                <input type="file" name="p_flag" id="p_flag" class="form-control">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-success">Add Party</button>
