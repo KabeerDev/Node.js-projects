@@ -6,7 +6,9 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const auth = require("./routes/user");
 const admin = require("./routes/admin");
+const vote = require("./routes/vote");
 const { party } = require("./model/party")
+const { candidate } = require("./model/candidate")
 const { loadParties, partyDetail } = require("./controllers/mainController")
 const dotenv = require("dotenv").config();
 const { checkUser, restrictUser } = require("./middleware/checkUser");
@@ -39,7 +41,9 @@ app.get("/load-parties", checkUser, loadParties);
 
 app.get("/party-detail/:p_id", checkUser, partyDetail);
 
+
 app.use("/", auth);
+app.use("/vote", vote);
 app.use("/admin", admin);
 
 app.listen(port, () => {

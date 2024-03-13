@@ -280,7 +280,7 @@ async function getCandidates(req, res) {
                         </li>`;
 
         for (let i = 0; i < totalPages; i++) {
-            data += `<li id="${i + 1}" class="page-item"><a class="page-link">${i + 1}</a></li>`;
+            data += `<li id="${i + 1}" class="${pageNo == i + 1 ? "active" : ""} page-item"><a class="page-link">${i + 1}</a></li>`;
         }
         data += `<li id="${pageNo}" class="page-item next ${n_disabled}">
                             <a class="page-link"getParties aria-label="Next">
@@ -365,7 +365,7 @@ async function getParties(req, res) {
                         </li>`;
 
         for (let i = 0; i < totalPages; i++) {
-            data += `<li id="${i + 1}" class="page-item"><a class="page-link">${i + 1}</a></li>`;
+            data += `<li id="${i + 1}" class="${pageNo == i + 1 ? "active" : ""} page-item"><a class="page-link">${i + 1}</a></li>`;
         }
         data += `<li id="${pageNo}" class="page-item next ${n_disabled}">
                             <a class="page-link"getParties aria-label="Next">
