@@ -80,4 +80,21 @@ Welcome to the Node.js Projects repository! This Git repository hosts a collecti
   - Open your browser and navigate to `http://localhost:3000` to access the Real-time Chat Application.
 - **Note:** Customize the environment variables and configurations as per your preferences and security requirements.
 
+### 6. Voting Website
+
+- **Description:** A Node.js website allowing users to vote for their preferred candidates. It includes an admin panel for managing parties and candidates.
+- **Technologies:** HTML, CSS, Bootstrap, Node.js, Express.js, EJS, MongoDB.
+- **Features:**
+  - Display information about political parties and candidates.
+  - User voting system for candidates.
+  - Admin panel for managing parties and candidates (adding, editing, deleting).
+- **Instructions:**
+  - Explore the `voting-website` folder for detailed documentation.
+  - Ensure Node.js and MongoDB are installed on your system.
+  - Run `npm install` to install dependencies.
+  - Customize the environment variables in the `.env` file, including database connection details.
+  - Run the application using `npm start`.
+  - Open your browser and navigate to `http://localhost:3000` to access the Voting and Party Information Website.
+- **Note:** Customize the environment variables and configurations as per your preferences and security requirements.
+
 Feel free to explore the individual project folders for detailed documentation and instructions on running each project. Happy coding!
